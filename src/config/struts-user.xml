@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 未与spring集成的写法 -->
+	<!-- <package name="loginAction" namespace="/" extends="abstract_struts"> 
+		<action name="login" class="com.xin.action.LoginAction"> <result name="success" 
+		type="redirect">userMain</result> <result name="fail">/fail.jsp</result> 
+		</action> 该action只负责跳转，用struts提供的ActionSupport <action name="userMain" class="com.opensymphony.xwork2.ActionSupport"> 
+		<result name="success">/userMain.jsp</result> <interceptor-ref name="myInterceptor" 
+		/> </action> </package> <package name="userActions" namespace="/user" extends="abstract_struts"> 
+		<action name="*_*" class="com.xin.action.UserAction" method="{1}"> <result 
+		name="success" type="redirect">/{2}.jsp</result> <result name="fail">/fail.jsp</result> 
+		<interceptor-ref name="myInterceptor" /> </action> </package> -->
+
+	<!-- 与spring集成的写法，action等交予spring管理 -->
+	<package name="loginAction" namespace="/" extends="abstract_struts">
+
+		<action name="login" class="loginAction">
+			<result name="admin" type="redirect">userMain.jsp</result>
+			<result name="success" type="redirect">userQuerySalary.jsp</result>
+			<result name="fail">login.jsp</result>
+		</action>
+		
+		<action name="logout" class="loginAction" method="logout">
+			<result name="success" type="redirect">login.jsp</result>
+			<result name="fail">userMain.jsp</result>
+		</action>
+		
+		<action name="initCaptcha" class="initCaptcha">
+			 <result name="success" type="stream">
+            	<param name="contentType">image/jpeg</param>
+             	<param name="inputName">imageStream</param>
+            	<param name="bufferSize">2048</param>
+         	 </result>
+		</action>
+		
+		<action name="*" >
+			<interceptor-ref name="myInterceptor"/>
+			<result name="success">/{1}.jsp</result>
+			
+		</action>
+		
+		<!-- 该action只负责跳转，用struts提供的ActionSupport -->
+		<action name="userMain" class="userMainAction">
+			<interceptor-ref name="myInterceptor"/>
+			<result name="success">/userMain.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+
+		<action name="getData" class="salaryStandardAction" method="getAllSalaryStandard">
+			<result name="success">/showSalaryStandard.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+		
+		<action name="specialSalaryChange">
+			<result>/specialSalaryChange.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+		
+		<action name="specialSalaryRecovery">
+			<result>/specialSalaryRecovery.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+		
+		<action name="autoSalary" class="autoSalary" method="computeSalary">
+			<result name="success">/showSalaryForAll.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+		
+		<action name="exportSalary" class="autoSalary" method="exportSalary">
+			<result name="success">/success.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+
+	</package>
+	
+	<package name="salaryQuery" namespace="/salaryQuery" extends="abstract_struts">
+		<action name="salaryQuery" class="salaryQuery" method="querySalary">
+			<result name="success">/Queryresult.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+		<action name="userSalaryQuery" class="salaryQuery" method="userSalaryQuery">
+			<result name="success" type = "redirect">/userQueryResult.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+	</package>
+
+	<package name="userActions" namespace="/user" extends="abstract_struts">
+		<action name="*_*" class="userAction" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="employeeActions" namespace="/employee" extends="abstract_struts">
+		<action name="*_*" class="employeeAction" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<result name="importFail"> /ImportEmployeeInfo.jsp </result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="salaryActions" namespace="/salary" extends="abstract_struts">
+		<action name="*_*" class="salaryAction" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<result name="null" type="redirect">/success.jsp</result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="salaryStandardActions" namespace="/salaryStandard"
+		extends="abstract_struts">
+		<action name="*_*" class="salaryStandardAction" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<result name="null" type="redirect">/success.jsp</result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="newEmployeeActions" namespace="/newEmployee"
+		extends="abstract_struts">
+		<action name="*_*" class="newEmployeeAction" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<result name="daiqixin" type="redirect">/newWorkerSalary_daiqixin.jsp</result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="specialSalaryActions" namespace="/specialSalary"
+		extends="abstract_struts">
+		<action name="*" class="specialSalaryAction" method="{1}">
+			<result name="success" type="redirect">/{1}.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<result name="ok" type="redirect">/success.jsp</result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="initSalaryCompute" namespace="/initSalaryCompute"
+		extends="abstract_struts">
+		<action name="*_*" class="initSalaryCompute" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			</action>
+		<action name="initSalaryCompute" class="initSalaryCompute"
+			method="initSalaryCompute">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="bonusActions" namespace="/bonus" extends="abstract_struts">
+		<action name="*_*" class="bonusAction" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			<result name="fail">/fail.jsp</result>
+			<result name="null" type="redirect">/success.jsp</result>
+			<interceptor-ref name="myInterceptor" />
+		</action>
+	</package>
+
+	<package name="changeActions" namespace="/change" extends="abstract_struts">
+		<action name="*_*" class="changeAction" method="{1}">
+			<result name="success" type="redirect">/{2}.jsp</result>
+			<result name="fail" type="redirect">/campusmobilization.jsp</result>
+			<result name="null" type="redirect">/campusmobilization.jsp</result>
+			<interceptor-ref name="myInterceptor"/>
+		</action>
+	</package>
+	
+</struts>

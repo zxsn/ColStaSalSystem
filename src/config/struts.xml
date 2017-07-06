@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<!-- 将Action的创建交给spring来管理 -->
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- 更改struts2请求Action的后缀名，默认为action。若想去掉后缀，设为","即可 -->
+	<constant name="struts.action.extension" value=","></constant>
+	<!-- 取消标签自动换行 -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<!-- utf-8编码 -->
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	<!-- 公共包 -->
+
+	<package name="abstract_struts" abstract="true" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="checkLogin" class="com.xin.interceptor.CheckLogin" />
+			<interceptor-stack name="myInterceptor">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="checkLogin" />
+			</interceptor-stack>
+		</interceptors>
+
+		<!-- <default-interceptor-ref name="myInterceptor" /> -->
+
+		<global-results>
+			<result name="checkLoginFail">/initLogin.jsp</result>
+		</global-results>
+	</package>
+
+
+	<!-- 包含的配置文件 -->
+	<include file="./config/struts-user.xml"></include>
+
+</struts>

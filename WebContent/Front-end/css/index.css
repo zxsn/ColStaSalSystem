@@ -1,0 +1,49 @@
+.top{
+	width:100%;
+}
+
+.title{
+	margin: 10px;
+}
+
+.user{
+	margin: 17px;
+}
+
+.user-btn{
+	margin-top: 10px;
+}
+
+.body{
+	width:100%;
+	padding-left: 10px;
+}
+
+
+div{font-size:18px;  line-height:200%;} 
+a
+{
+font-size:15px; 
+
+color:black;
+}
+.emp{
+font-size:18px;
+color:#292421;
+}
+
+.employeeinfo{
+	font-weight: bold;
+	font-size: 30px;
+	text-align: center;
+}
+
+.form-control{
+	margin-top: 10px;
+
+}
+
+.searchBlank{
+	margin-left:300px;
+	
+}

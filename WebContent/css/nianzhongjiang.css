@@ -1,0 +1,14 @@
+table {
+	background-color: black;
+	border-collapse: separate;
+	border-spacing: 1px;
+}
+
+.top{
+	text-align:center;
+	margin-top:5%;
+}
+
+.inputfile{
+	margin-top:5%;
+}

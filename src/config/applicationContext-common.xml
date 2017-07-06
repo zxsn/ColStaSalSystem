@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- 启用spring注解支持 -->
+	<context:annotation-config />
+
+	<!--配数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+				
+		<property name="username" value="employee" />
+		<property name="password" value="12345" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="default_schema">employee</prop>
+			</props>
+		</property>
+		
+		<property name="annotatedClasses">
+			<list>
+				<value>com.xin.bean.User</value>
+				<value>com.xin.bean.Employee</value>
+				<value>com.xin.bean.ProfessionalSalaryChange</value>
+				<value>com.xin.bean.ProfessionalPaylevelSalary</value>
+				<value>com.xin.bean.ProfessionalPositionSalary</value>
+				<value>com.xin.bean.ManageSalaryChange</value>
+				<value>com.xin.bean.ManagePaylevelSalary</value>
+				<value>com.xin.bean.ManagePositionSalary</value>
+				<value>com.xin.bean.WorkerSalaryChange</value>
+				<value>com.xin.bean.WorkerPaylevelSalary</value>
+				<value>com.xin.bean.WorkerPositionSalary</value>
+				<value>com.xin.bean.Salary</value>
+				<value>com.xin.bean.StartSalaryInfo</value>
+				<value>com.xin.bean.SpecialSalaryChange</value>
+				<value>com.xin.bean.SpecialSalaryRecovery</value>
+				<value>com.xin.bean.WorkChange</value>
+				<value>com.xin.bean.TitleChange</value>
+				<value>com.xin.bean.DepartmentChange</value>
+				<value>com.xin.bean.LeaveSchoolPerson</value>
+				<value>com.xin.bean.OffInfo</value>
+				<value>com.xin.bean.FinalBonus</value>
+				<value>com.xin.bean.FinalCheck</value>
+				<value>com.xin.bean.Experiences</value>
+			</list>
+		</property>
+
+	</bean>
+
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 事务的传播特性 -->
+	<tx:advice id="txadvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="modify*" propagation="REQUIRED" />
+			<!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 -->
+			<tx:method name="*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 那些类那些方法使用事务 -->
+	<aop:config>
+		<!-- 只对业务逻辑层实施事务 -->
+		<aop:pointcut id="allManagerMethod" expression="execution(* com.xin.service.*.*(..))" />
+		<aop:advisor pointcut-ref="allManagerMethod" advice-ref="txadvice" />
+	</aop:config>
+
+
+</beans>

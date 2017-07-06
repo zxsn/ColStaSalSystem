@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- Spring管理Struts2的Action -->
+	<bean name="loginAction" class="com.xin.action.LoginAction" scope="prototype"></bean>
+	<bean name="userMainAction" class="com.opensymphony.xwork2.ActionSupport" scope="prototype"></bean>
+	<bean name="userAction" class="com.xin.action.UserAction" scope="prototype"></bean>
+	<bean name="employeeAction" class="com.xin.action.EmployeeAction" scope="prototype"></bean>
+	<bean name="salaryAction" class="com.xin.action.SalaryAction" scope="prototype"></bean>
+	<bean name="salaryStandardAction" class="com.xin.action.SalaryStandardAction" scope="prototype"></bean>
+	<bean name="newEmployeeAction" class="com.xin.action.NewEmployeeAction" scope="prototype"></bean>
+	<bean name="specialSalaryAction" class="com.xin.action.SpecialSalaryAction" scope="prototype"></bean>
+	<bean name="initSalaryCompute" class="com.xin.action.InitSalaryCompute" scope="prototype"></bean>
+	<bean name="bonusAction" class="com.xin.action.BonusAction" scope="prototype"></bean>
+	<bean name="autoSalary" class="com.xin.action.AutoSalary" scope="prototype"></bean>
+	<bean name="changeAction" class="com.xin.action.ChangeAction" scope="prototype"></bean>
+	<bean name="initCaptcha" class="com.xin.action.InitCaptcha" scope="prototype"></bean>
+	<bean name="salaryQuery" class="com.xin.action.SalaryQuery" scope="prototype"></bean>
+		
+	<bean id="levelSalaryChange" class="com.xin.action.LevelSalaryChange" scope="prototype"></bean>
+	
+	<!-- Spring管理Struts2的Interceptor -->	
+	<bean name="checkLoginInterceptor" class="com.xin.interceptor.CheckLogin"
+		scope="prototype"></bean>
+
+
+	<bean name="userManage" class="com.xin.service.impl.UserManageImp"></bean>
+	<bean name="userDao" class="com.xin.dao.impl.UserDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="employeeManage" class="com.xin.service.impl.EmployeeManageImp"></bean>
+	<bean name="employeeDao" class="com.xin.dao.impl.EmployeeDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="StartSalaryInfoManage" class="com.xin.service.impl.StartSalaryInfoManageImp"></bean>
+	<bean name="startSalaryInfoDao" class="com.xin.dao.impl.StartSalaryInfoDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="salaryManage" class="com.xin.service.impl.SalaryManageImp"></bean>
+	<bean name="salaryDao" class="com.xin.dao.impl.SalaryDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="manageSalaryManage" class="com.xin.service.impl.ManageSalaryManageImp"></bean>
+	<bean name="ImanageSalaryDao" class="com.xin.dao.impl.ManageSalaryDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="profSalaryManage" class="com.xin.service.impl.ProfSalaryManageImp"></bean>
+	<bean name="IProfSalaryDao" class="com.xin.dao.impl.ProfSalaryDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="workerSalaryManage" class="com.xin.service.impl.WorkerSalaryManageImp"></bean>
+	<bean name="IWorkerSalaryDao" class="com.xin.dao.impl.WorkerSalaryDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="specialSalaryChangeManage" class="com.xin.service.impl.SpecialSalaryChangeManageImp"></bean>
+	<bean name="specialSalaryChangeDao" class="com.xin.dao.impl.SpecialSalaryChangeDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="specialSalaryRecoveryManage" class="com.xin.service.impl.SpecialSalaryRecoveryManageImp"></bean>
+	<bean name="specialSalaryRecoveryDao" class="com.xin.dao.impl.SpecialSalaryRecoveryDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean name="departmentChangeManage" class="com.xin.service.impl.DepartmentChangeManageImp"></bean>
+	<bean name="departmentChangeDao" class="com.xin.dao.impl.DepartmentChangeDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="leaveSchoolPersonManage" class="com.xin.service.impl.LeaveSchoolPersonManageImp"></bean>
+	<bean name="leaveSchoolPersonDao" class="com.xin.dao.impl.LeaveSchoolPersonDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean name="finalBonusManage" class="com.xin.service.impl.FinalBonusManageImp"></bean>
+	<bean name="finalBonusDao" class="com.xin.dao.impl.FinalBonusDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean name="finalCheckManage" class="com.xin.service.impl.FinalCheckManageImp"></bean>
+	<bean name="finalCheckDao" class="com.xin.dao.impl.FinalCheckDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean name="offInfoManage" class="com.xin.service.impl.OffInfoManageImp"></bean>
+	<bean name="offInfoDao" class="com.xin.dao.impl.OffInfoDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean name="ExperiencesManage" class="com.xin.service.impl.ExperiencesManageImp"></bean>
+	<bean name="ExperiencesDao" class="com.xin.dao.impl.ExperiencesDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+</beans>
